@@ -1,0 +1,429 @@
+{
+    "users": [
+        {
+            "user_id": "user001",
+            "username": "himani",
+            "password": "user123",
+            "reputation": 77,
+            "risk_score": 13,
+            "name": "Himani",
+            "accounts": [
+                {
+                    "account_id": "6bcd6e81-90dc-4591-b8bc-22045b48ae95",
+                    "account_type": "BasicTimeAccount",
+                    "balance": 100.0,
+                    "state": "Active"
+                },
+                {
+                    "account_id": "975cf805-180d-46ed-9b2c-e88a158fee66",
+                    "account_type": "LoanAccount",
+                    "balance": 1019900.0,
+                    "state": "Active"
+                },
+                {
+                    "account_id": "IA001",
+                    "account_type": "InvestorAccount",
+                    "balance": 13100,
+                    "state": "Active"
+                },
+                {
+                    "account_id": "d62cdb81-d043-4080-a1f8-25a0c0d2cfe8",
+                    "account_type": "BasicTimeAccount",
+                    "balance": 209,
+                    "state": "Active"
+                }
+            ],
+            "transactions": [
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 25000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 35000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 35000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 35000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 10000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 10000
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 10000.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 4000.0,
+                    "from_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Loan Approved",
+                    "amount": 10000.0,
+                    "to_account": "LoanAccount",
+                    "strategy": "Fixed"
+                },
+                {
+                    "type": "Loan Repayment",
+                    "amount": 2916.6666666666665,
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "strategy": "Fixed"
+                },
+                {
+                    "type": "Investment",
+                    "amount": 8000.0,
+                    "interest_rate": 0.0661,
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "InvestAccount",
+                    "maturity_date": "2025-05-16"
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 10000
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 15000.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 5000.0,
+                    "from_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "InvestorAccount",
+                    "amount": 5000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 5000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 10000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 100
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 17
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 66
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 44.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 4.0,
+                    "from_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 70.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 101.0,
+                    "from_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 500.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 200
+                },
+                {
+                    "type": "Loan Approved",
+                    "amount": 1000000.0,
+                    "to_account": "LoanAccount",
+                    "strategy": "Fixed"
+                },
+                {
+                    "type": "Investment",
+                    "amount": 100.0,
+                    "interest_rate": 0.0804,
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "InvestAccount",
+                    "maturity_date": "2025-05-9"
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 1000.0,
+                    "from_account": "LoanAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 1000.0,
+                    "to_account": "LoanAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 100
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 100.0,
+                    "from_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 100.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                }
+            ]
+        },
+        {
+            "user_id": "user002",
+            "username": "dev",
+            "password": "user123",
+            "name": "Dev",
+            "reputation": 82,
+            "risk_score": 18,
+            "accounts": [
+                {
+                    "account_id": "5534653c-a2ec-490d-b86b-62ece968b052",
+                    "account_type": "BasicTimeAccount",
+                    "balance": 9000.0,
+                    "state": "Active"
+                },
+                {
+                    "account_id": "4bb7ff82-4296-42f4-8bad-95565a29baf2",
+                    "account_type": "LoanAccount",
+                    "balance": 72000.0,
+                    "state": "Active"
+                },
+                {
+                    "account_id": "IA001",
+                    "account_type": "InvestorAccount",
+                    "balance": 60000.0,
+                    "state": "Active"
+                }
+            ],
+            "transactions": [
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 5000
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 10000.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 150000.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 100000.0,
+                    "from_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Loan Approved",
+                    "amount": 50000.0,
+                    "to_account": "LoanAccount",
+                    "strategy": "Dynamic"
+                },
+                {
+                    "type": "Loan Repayment",
+                    "amount": 8000.0,
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "strategy": "Dynamic"
+                },
+                {
+                    "type": "Investment",
+                    "amount": 60000.0,
+                    "interest_rate": 0.0485,
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "InvestAccount",
+                    "maturity_date": "2025-05-17"
+                }
+            ]
+        },
+        {
+            "user_id": "user003",
+            "username": "virendra",
+            "password": "user123",
+            "name": "Virendra",
+            "reputation": 70,
+            "risk_score": 20,
+            "accounts": [
+                {
+                    "account_id": "3969e682-4a33-410d-8e0d-501c01f75f4c",
+                    "account_type": "BasicTimeAccount",
+                    "balance": 1000.0,
+                    "state": "Active"
+                },
+                {
+                    "account_id": "L001",
+                    "account_type": "LoanAccount",
+                    "balance": 1000.0,
+                    "state": "Active"
+                }
+            ],
+            "transactions": [
+                {
+                    "type": "Loan Approved",
+                    "amount": 1000.0,
+                    "to_account": "LoanAccount",
+                    "strategy": "Fixed"
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 1000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 1000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 1000
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "BasicTimeAccount",
+                    "to_account": "LoanAccount",
+                    "amount": 0
+                },
+                {
+                    "type": "Transfer",
+                    "from_account": "LoanAccount",
+                    "to_account": "BasicTimeAccount",
+                    "amount": 1000
+                }
+            ]
+        },
+        {
+            "user_id": "user004",
+            "username": "moksha",
+            "password": "user123",
+            "name": "Moksha",
+            "reputation": 70,
+            "risk_score": 30,
+            "accounts": [],
+            "transactions": []
+        }
+    ]
+}
