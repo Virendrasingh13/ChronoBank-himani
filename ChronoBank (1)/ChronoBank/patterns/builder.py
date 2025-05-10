@@ -1,4 +1,3 @@
-from ChronoBank.state.state import ActiveState  # Import your default state
 
 class TimeAccountBuilder:
     def __init__(self):
@@ -28,7 +27,7 @@ class TimeAccount:
         self.account_type = None
         self.interest_rate = 0
         self.transaction_limit = 0
-        self.state = ActiveState()  # Default state
+        self.state = "Active" # Default state
 
     def __str__(self):
         return f"Account Type: {self.account_type}, Interest Rate: {self.interest_rate}%, Transaction Limit: {self.transaction_limit}"

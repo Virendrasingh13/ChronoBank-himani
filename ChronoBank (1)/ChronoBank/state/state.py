@@ -1,5 +1,3 @@
-# state.py (Inside `ChronoBank/state`)
-
 class AccountState:
     def __init__(self, state_name):
         self.state_name = state_name

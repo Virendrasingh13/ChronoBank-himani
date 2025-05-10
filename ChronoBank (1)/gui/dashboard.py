@@ -15,16 +15,16 @@ from ChronoBank.state.state_manager import StateManager
 
 import json
 import os
-import uuid  # Import uuid for generating unique IDs
+import uuid  
 
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'db.json')  # Path to db.json
+DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'db.json')  
 
 class Dashboard:
     def __init__(self, user_data):
         self.user = user_data
         self.root = tk.Tk()
         self.root.title("ChronoBank Dashboard")
-        self.root.geometry("500x400")
+        self.root.geometry("600x600")
         self.last_command = None
         Ledger().load_user_transactions(self.user["user_id"])
         
@@ -32,33 +32,46 @@ class Dashboard:
         self.fraud_detector = FraudDetector()
         self.reputation_manager = ReputationManager()
 
-
-        # Displaying user info
         tk.Label(self.root, text=f"Welcome, {self.user['name']}", font=("Arial", 16)).pack(pady=10)
         tk.Label(self.root, text=f"User ID: {self.user['user_id']}", font=("Arial", 10)).pack()
-        
-        
-        # Show the accounts
+ 
         tk.Label(self.root, text="Accounts:", font=("Arial", 12, "bold")).pack(pady=5)
         self.account_labels = []
-        self.account_frame = tk.Frame(self.root)  # Create a frame to hold account labels
+        self.account_frame = tk.Frame(self.root)  
         self.account_frame.pack()
-        self.refresh_account_display()  # Initial display of accounts
+        self.refresh_account_display()
+
+        # Create three columns for buttons
+        left_column = tk.Frame(self.root)
+        middle_column = tk.Frame(self.root)
+        right_column = tk.Frame(self.root)
+        
+        left_column.pack(side=tk.LEFT, padx=20, pady=10)
+        middle_column.pack(side=tk.LEFT, padx=20, pady=10)
+        right_column.pack(side=tk.LEFT, padx=20, pady=10)
+
+        # Left Column - Account Management
+        tk.Label(left_column, text="Account Management", font=("Arial", 10, "bold")).pack(pady=5)
+        tk.Button(left_column, text="Add New Account", command=self.add_account, width=20).pack(pady=5)
+        tk.Button(left_column, text="View Balance", command=self.view_balance, width=20).pack(pady=5)
+        tk.Button(left_column, text="View Reputation", command=self.view_reputation, width=20).pack(pady=5)
+        tk.Button(left_column, text="Transaction History", command=self.view_transaction_history, width=20).pack(pady=5)
+
+        # Middle Column - Transactions
+        tk.Label(middle_column, text="Transactions", font=("Arial", 10, "bold")).pack(pady=5)
+        tk.Button(middle_column, text="Deposit Time", command=self.deposit_time, width=20).pack(pady=5)
+        tk.Button(middle_column, text="Withdraw Time", command=self.withdraw_time, width=20).pack(pady=5)
+        tk.Button(middle_column, text="Transfer Time", command=self.transfer_time, width=20).pack(pady=5)
+        tk.Button(middle_column, text="Undo Last Transfer", command=self.undo_last_transfer, width=20).pack(pady=5)
 
 
-        # Buttons for operations
-        tk.Button(self.root, text="Add New Account", command=self.add_account).pack(pady=5)
-        tk.Button(self.root, text="Transfer Time", command=self.transfer_time).pack(pady=5)
-        tk.Button(self.root, text="Undo Last Transfer", command=self.undo_last_transfer).pack(pady=5)
-        tk.Button(self.root, text="View Balance", command=self.view_balance).pack(pady=5)
-        tk.Button(self.root, text="View Reputation and Risk Score", command=self.view_reputation).pack(pady=5)
-        tk.Button(self.root, text="Deposit Time", command=self.deposit_time).pack(pady=5)
-        tk.Button(self.root, text="Withdraw Time", command=self.withdraw_time).pack(pady=5)
-        tk.Button(self.root, text="Transaction History", command=self.view_transaction_history).pack(pady=5)
-        tk.Button(self.root, text="Apply for Loan", command=self.apply_for_loan).pack(pady=5)
-        tk.Button(self.root, text="Repay Loan", command=self.repay_loan).pack(pady=5)
-        tk.Button(self.root, text="Invest Time", command=self.invest_time).pack(pady=5)
-        tk.Button(self.root, text="Logout", command=self.logout).pack(pady=20)
+        # Right Column - Special Features
+        tk.Label(right_column, text="Special Features", font=("Arial", 10, "bold")).pack(pady=5)
+        tk.Button(right_column, text="Apply for Loan", command=self.apply_for_loan, width=20).pack(pady=5)
+        tk.Button(right_column, text="Repay Loan", command=self.repay_loan, width=20).pack(pady=5)
+        tk.Button(right_column, text="Invest Time", command=self.invest_time, width=20).pack(pady=5)
+        tk.Button(right_column, text="Logout", command=self.logout, width=20 , font=("Arial", 10, "bold")).pack(pady =5)
+        # Logout button centered below columns
 
         self.root.mainloop()
 
@@ -68,12 +81,11 @@ class Dashboard:
         messagebox.showinfo("User Reputation",f"Reputation: {reputation}\nRisk Score: {risk_score}")
 
     def refresh_account_display(self):
-        """ Refresh the account display to show current accounts """
-        # Clear existing account labels
+
         for label in self.account_labels:
             label.destroy()
-        self.account_labels.clear()  # Clear the list of labels
-        # Display updated account information
+        self.account_labels.clear()  
+ 
         for acc in self.user["accounts"]:
             label = tk.Label(self.account_frame, text=f"{acc['account_type']} — Balance: {acc['balance']:.2f} time units")
             self.account_labels.append(label)
@@ -91,19 +103,17 @@ class Dashboard:
         if balance is None:
             return
 
-        # Correct mapping from user input to factory-compatible class names
         type_mapping = {
             "Basic": "BasicTimeAccount",
             "Investor": "InvestorAccount",
             "Loan": "LoanAccount"
         }
 
-        account_class_name = type_mapping[account_type]  # Map to factory class name
+        account_class_name = type_mapping[account_type]  
         account_factory = AccountFactory()
         account_id = str(uuid.uuid4())
         new_account = account_factory.create_account(account_class_name, account_id, balance)
 
-        # Optional Builder Configuration
         builder = TimeAccountBuilder().set_account_type(account_class_name)
         interest_rate = simpledialog.askfloat("Interest Rate (optional)", "Enter interest rate (%), or leave blank:")
         limit = simpledialog.askinteger("Transaction Limit (optional)", "Enter transaction limit, or leave blank:")
@@ -114,14 +124,12 @@ class Dashboard:
         built_account_config = builder.build()
         print("Builder Config:", built_account_config)
 
-        from ChronoBank.state.state import ActiveState
 
-        # Add account to user list with state info
         self.user["accounts"].append({
             "account_id": new_account.account_id,
             "account_type": new_account.__class__.__name__,
             "balance": new_account.balance,
-            "state": "Active"  # Default state name (string-based)
+            "state": "Active"
         })
 
         messagebox.showinfo("Account Added", f"New {new_account.__class__.__name__} account added!")
@@ -129,20 +137,17 @@ class Dashboard:
         self.refresh_account_display()
 
     def save_to_db(self):
-        """ Save the current user data to db.json """
+ 
         try:
             with open(DB_PATH, "r") as f:
                 data = json.load(f)
-
-            # Update the user data in the database
             for user in data["users"]:
                 if user["user_id"] == self.user["user_id"]:
                     user["accounts"] = self.user["accounts"]
                     user["reputation"] = self.user.get("reputation", 50)
                     user["risk_score"] = self.user.get("risk_score", 50)
                     break
-
-            # Write the updated data back to db.json
+           
             with open(DB_PATH, "w") as f:
                 json.dump(data, f, indent=4)
 
@@ -150,27 +155,20 @@ class Dashboard:
             messagebox.showerror("Error", f"Failed to save data: {str(e)}")
 
     def apply_for_loan(self):
-        """ Apply for a loan using strategy pattern and custom amount """
+        
         from ChronoBank.strategy.strategy import LoanApprovalStrategy
         from ChronoBank.classes.account import LoanAccount
         from ChronoBank.classes.ledger import Ledger
 
-        # Ask loan type
         loan_type = messagebox.askquestion("Loan Type", "Choose loan type:\nYes for Short-term\nNo for Long-term")
         loan_strategy = LoanApprovalStrategy()
         loan_strategy.set_strategy('Fixed' if loan_type == 'yes' else 'Dynamic')
-
-        # Ask loan amount
         loan_amount = simpledialog.askfloat("Loan Amount", "Enter loan amount:")
         if loan_amount is None or loan_amount <= 0:
             messagebox.showerror("Error", "Invalid loan amount.")
             return
-
-        # Create and approve loan
-        loan_account = LoanAccount(account_id="L001")  # Replace with dynamic ID if needed
+        loan_account = LoanAccount(account_id="L001")  
         loan_strategy.approve_loan(loan_account, loan_amount)
-
-        # Add or update in user accounts
         existing_loan = next((acc for acc in self.user["accounts"] if acc["account_type"] == "LoanAccount"), None)
         if existing_loan:
             existing_loan["balance"] += loan_account.balance
@@ -181,7 +179,6 @@ class Dashboard:
                 "balance": loan_account.balance
             })
 
-        # Record in ledger
         Ledger().add_transaction({
             "type": "Loan Approved",
             "amount": loan_amount,
@@ -195,26 +192,19 @@ class Dashboard:
 
 
     def repay_loan(self):
-        """ Repay a loan and deduct from selected account """
         from ChronoBank.strategy.strategy import LoanApprovalStrategy
         from ChronoBank.classes.account import LoanAccount
         from ChronoBank.classes.ledger import Ledger
-
-        # Find loan account
         loan_data = next((acc for acc in self.user["accounts"] if acc["account_type"] == "LoanAccount"), None)
         if not loan_data or loan_data["balance"] <= 0:
             messagebox.showerror("Error", "No active loan account found.")
             return
-
-        # Ask repayment strategy
         strategy_type = messagebox.askquestion("Repayment Type", "Choose repayment type:\nYes for Fixed\nNo for Dynamic")
         loan_strategy = LoanApprovalStrategy()
         loan_strategy.set_strategy('Fixed' if strategy_type == 'yes' else 'Dynamic')
 
         loan_account = LoanAccount(account_id=loan_data["account_id"], balance=loan_data["balance"])
         repayment_amount = loan_strategy.calculate_repayment(loan_account)
-
-        # Ask which account to deduct from
         account_types = [f"{i}: {acc['account_type']} — Balance: {acc['balance']}" 
                         for i, acc in enumerate(self.user["accounts"]) if acc["account_type"] != "LoanAccount"]
         if not account_types:
@@ -234,14 +224,10 @@ class Dashboard:
             self.reputation_manager.adjust_reputation(self.user, -3,  self.save_to_db)
             self.save_to_db()
             return
-
-        # Deduct and update
         source_account["balance"] -= repayment_amount
         loan_account.balance -= repayment_amount
         loan_data["balance"] = loan_account.balance
         self.reputation_manager.adjust_reputation(self.user, +2,  self.save_to_db)
-
-        # Record transaction
         Ledger().add_transaction({
             "type": "Loan Repayment",
             "amount": repayment_amount,
@@ -249,14 +235,11 @@ class Dashboard:
             "to_account": "LoanAccount",
             "strategy": 'Fixed' if strategy_type == 'yes' else 'Dynamic'
         })
-
         self.save_to_db()
         self.refresh_account_display()
         messagebox.showinfo("Repayment Complete", f"{repayment_amount} repaid from {source_account['account_type']}.")
 
-
     def invest_time(self):
-        """Invest time into an InvestAccount with a dynamic interest rate and maturity date."""
 
         import random
         import datetime
@@ -270,7 +253,7 @@ class Dashboard:
         invest_account = next((acc for acc in self.user["accounts"] if acc["account_type"] == "InvestorAccount"), None)
         if not invest_account:
             invest_account = {
-                "account_id": "IA001",  # you can generate dynamic IDs if needed
+                "account_id": "IA001",  
                 "account_type": "InvestorAccount",
                 "balance": 0
             }
@@ -294,20 +277,14 @@ class Dashboard:
         if selected_acc["balance"] < invest_amount:
             messagebox.showerror("Error", "Insufficient balance in selected account.")
             return
-
-        # Step 4: Deduct from selected account
         selected_acc["balance"] -= invest_amount
 
-
-        # Step 5: Simulate dynamic interest and store maturity date
-        interest_rate = round(random.uniform(0.03, 0.09), 4)  # 3%–9% interest
+        interest_rate = round(random.uniform(0.03, 0.09), 4)  
         interest_earned = round(invest_amount * interest_rate, 2)
         maturity_date = str(datetime.date.today() + datetime.timedelta(days=7))
 
-        # Step 6: Add invested amount to InvestAccount balance (optional)
         invest_account["balance"] += invest_amount
 
-        # Step 7: Store in user["investments"]
         if "investments" not in self.user:
             self.user["investments"] = []
 
@@ -320,7 +297,6 @@ class Dashboard:
             "status": "Active"
         })
 
-        # Step 8: Ledger record
         Ledger().add_transaction({
             "type": "Investment",
             "amount": invest_amount,
@@ -338,27 +314,30 @@ class Dashboard:
             f"Matures on {maturity_date} with {interest_earned} interest."
         )
 
+    def reload_user_from_db(self):
+        with open(DB_PATH, "r") as f:
+            data = json.load(f)
+        for user in data["users"]:
+            if user["user_id"] == self.user["user_id"]:
+                self.user = user
+                break
 
     def view_balance(self):
-        """ View the balance for each of the user's accounts """
-        self.refresh_account_display()
-
+        self.reload_user_from_db
         StateManager.force_state_evaluation()
         balance_message = "Account Balances:\n"
         for acc in self.user["accounts"]:
-            # Check if acc is a dictionary and access its keys
             if isinstance(acc, dict):
                 balance_message += f"{acc['account_type']} — Balance: {acc['balance']:.2f} time units — State: {acc['state']}\n"
             else:
-                # If acc is an instance of a class, access its attributes
                 balance_message += f"{acc.__class__.__name__} — Balance: {acc.balance} time units — State: {acc.state}\n"
-
-        messagebox.showinfo("Account Balances", balance_message)
+        print("Account Balances", balance_message)
+        messagebox.showinfo("Account Balances", balance_message )
 
 
     def logout(self):
         self.root.destroy()
-        from gui.login import LoginScreen  # Import moved here to avoid circular import
+        from gui.login import LoginScreen  
         LoginScreen()
 
     def transfer_time(self):
@@ -406,19 +385,14 @@ class Dashboard:
                     self.reputation_manager.adjust_reputation(self.user, -3,  self.save_to_db)
                     self.save_to_db
                     return
-
-                # Use Command pattern
                 command = TransferCommand(from_account, to_account, amount)
                 command.execute()
-                self.last_command = command  # Save for undo
+                self.last_command = command  
 
                 self.reputation_manager.adjust_reputation(self.user, +2,  self.save_to_db)
 
-
-
                 StateManager.force_state_evaluation()
-
-                
+                self.reload_user_from_db()
 
                 messagebox.showinfo("Success", f"Transferred {amount} time units.")
                 Ledger().add_transaction({
@@ -443,7 +417,7 @@ class Dashboard:
                 self.save_to_db()
 
                 transfer_window.destroy()
-                self.refresh_account_display()  # Initial display of accounts
+                self.refresh_account_display()  
 
             except Exception as e:
                 messagebox.showerror("Transfer Error", str(e))
@@ -466,23 +440,21 @@ class Dashboard:
         text_widget = tk.Text(history_window, wrap="word", height=15)
         text_widget.pack(fill="both", expand=True)
 
-        for i, txn in enumerate(transactions[::-1], 1):  # Show most recent first
+        for i, txn in enumerate(transactions[::-1], 1): 
             from_acc = txn.get("from_account", "-")
             to_acc = txn.get("to_account", "-")
             amount = round(txn.get("amount", 0), 2)
             entry = f"{i}. {txn['type']} - From: {from_acc}, To: {to_acc}, Amount: {amount} time units\n"
             text_widget.insert(tk.END, entry)
 
-
-
     def deposit_time(self):
         deposit_window = tk.Toplevel(self.root)
         deposit_window.title("Deposit Time")
-        deposit_window.geometry("500x400")
+        deposit_window.geometry("600x500")
 
         tk.Label(deposit_window, text="Select Account:").pack(pady=5)
-        listbox = tk.Listbox(deposit_window)
-        listbox.pack()
+        listbox = tk.Listbox(deposit_window, width=40, height=10)
+        listbox.pack(padx=10, pady=10)
         for i, acc in enumerate(self.user["accounts"]):
             listbox.insert(tk.END, f"{i}: {acc['account_type']} — Balance: {acc['balance']}")
 
@@ -499,27 +471,21 @@ class Dashboard:
                 index = int(selected[0])
                 amount = float(amount_entry.get())
 
-                #self.user["accounts"][index]["balance"] += amount
                 to_account=self.user["accounts"][index]
-                # Decorated transaction
                 account = self.user["accounts"][index]
                 txn = BasicTransaction(account, amount)
                 decorated_txn = BonusTimeDecorator(TimeTaxDecorator(txn))
                 decorated_txn.execute()
 
-                # Adapter pattern usage
                 from ChronoBank.classes.adapter import LegacyBankSystem, TimeAccountAdapter
                 adapter = TimeAccountAdapter(LegacyBankSystem())
                 adapter.deposit_time(amount)
 
                 self.reputation_manager.adjust_reputation(self.user, +2,  self.save_to_db)
 
-
-              
-
                 StateManager.force_state_evaluation()
-
-                
+                self.reload_user_from_db()
+             
 
                 from ChronoBank.classes.ledger import Ledger
                 Ledger().add_transaction({
@@ -539,7 +505,6 @@ class Dashboard:
                     messagebox.showwarning("Fraud Alert", fraud_result)
                     self.reputation_manager.adjust_reputation(self.user, -5,  self.save_to_db)
 
-
                 self.save_to_db()
                 self.refresh_account_display()
                 LowBalanceObserver().notify(account)
@@ -550,16 +515,14 @@ class Dashboard:
 
         tk.Button(deposit_window, text="Deposit", command=confirm_deposit).pack(pady=10)
         
-
-
     def withdraw_time(self):
         withdraw_window = tk.Toplevel(self.root)
         withdraw_window.title("Withdraw Time")
         withdraw_window.geometry("500x400")
 
         tk.Label(withdraw_window, text="Select Account:").pack(pady=5)
-        listbox = tk.Listbox(withdraw_window)
-        listbox.pack()
+        listbox = tk.Listbox(withdraw_window, width=40, height=10)
+        listbox.pack(padx=10, pady=10)
         for i, acc in enumerate(self.user["accounts"]):
             listbox.insert(tk.END, f"{i}: {acc['account_type']} — Balance: {acc['balance']}")
 
@@ -582,26 +545,20 @@ class Dashboard:
                     self.reputation_manager.adjust_reputation(self.user, -3,  self.save_to_db)
                     return
 
-                #self.user["accounts"][index]["balance"] -= amount
                 from_account=self.user["accounts"][index]
-                # Decorated transaction
                 account = self.user["accounts"][index]
                 txn = BasicTransaction(account, amount, is_withdraw=True)
                 decorated_txn = BonusTimeDecorator(TimeTaxDecorator(txn))
                 decorated_txn.execute()
 
-                # Adapter pattern usage
                 from ChronoBank.classes.adapter import LegacyBankSystem, TimeAccountAdapter
                 adapter = TimeAccountAdapter(LegacyBankSystem())
                 adapter.withdraw_time(amount)
 
                 self.reputation_manager.adjust_reputation(self.user, +2,  self.save_to_db)
-
-                # Wrap from_account and to_account as adapter objects
-
                 
                 StateManager.force_state_evaluation()
-
+                self.reload_user_from_db()
 
                 from ChronoBank.classes.ledger import Ledger
                 Ledger().add_transaction({

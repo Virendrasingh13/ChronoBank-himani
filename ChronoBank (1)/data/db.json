@@ -4,8 +4,8 @@
             "user_id": "user001",
             "username": "himani",
             "password": "user123",
-            "reputation": 77,
-            "risk_score": 13,
+            "reputation": 83,
+            "risk_score": 7,
             "name": "Himani",
             "accounts": [
                 {
@@ -17,7 +17,7 @@
                 {
                     "account_id": "975cf805-180d-46ed-9b2c-e88a158fee66",
                     "account_type": "LoanAccount",
-                    "balance": 1019900.0,
+                    "balance": 1020000.0,
                     "state": "Active"
                 },
                 {
@@ -29,7 +29,13 @@
                 {
                     "account_id": "d62cdb81-d043-4080-a1f8-25a0c0d2cfe8",
                     "account_type": "BasicTimeAccount",
-                    "balance": 209,
+                    "balance": 300.0,
+                    "state": "Active"
+                },
+                {
+                    "account_id": "295e2882-23d2-40ab-bf21-aaa436103e40",
+                    "account_type": "BasicTimeAccount",
+                    "balance": 2000.0,
                     "state": "Active"
                 }
             ],
@@ -269,6 +275,38 @@
                         "TimeTax",
                         "BonusTime"
                     ]
+                },
+                {
+                    "type": "Withdraw",
+                    "amount": 100.0,
+                    "from_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax"
+                    ]
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 100.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Deposit",
+                    "amount": 91.0,
+                    "to_account": "BasicTimeAccount",
+                    "decorators": [
+                        "TimeTax",
+                        "BonusTime"
+                    ]
+                },
+                {
+                    "type": "Loan Approved",
+                    "amount": 100.0,
+                    "to_account": "LoanAccount",
+                    "strategy": "Dynamic"
                 }
             ]
         },
